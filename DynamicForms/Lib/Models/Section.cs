@@ -1,4 +1,6 @@
-﻿using DynamicForms.Lib.Interfaces;
+﻿using System;
+using System.IO;
+using DynamicForms.Lib.Interfaces;
 using Newtonsoft.Json.Linq;
 
 namespace DynamicForms.Lib.Models
@@ -8,15 +10,21 @@ namespace DynamicForms.Lib.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string FileName { get; set; }
         
         public void Parse(string csv)
         {
-            throw new System.NotImplementedException();
+            string[] result = csv.Split(';');
+            
+            Id = Int32.Parse(result[0]);
+            Name = result[1];
+            Description = result[2];
+            FileName = result[3];
         }
 
         public JObject ToSchema()
         {
-            throw new System.NotImplementedException();
+            return null;
         }
     }
 }
