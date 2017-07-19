@@ -1,0 +1,13 @@
+<template>
+    <require from="./../../../../styles/views/welcome.css"></require>
+    <ul selectable="selected-id.two-way: selectedId; multi: true">
+        <li class="card default-padding" repeat.for="item of items" data-id="${item.Id}">
+            <div>${item.Name}</div>
+            <div class="suppressed">${item.Description}</div>
+        </li>
+    </ul>
+
+    <div class="bottom-toolbar">
+        <button class="action" click.delegate="startProcess">Start</button>
+    </div>
+</template>

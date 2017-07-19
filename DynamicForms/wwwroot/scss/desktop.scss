@@ -1,0 +1,9 @@
+@import './../jspm_packages/npm/pragma-views@0.0.60/scss/desktop.scss';
+
+router-view {
+  position: absolute;
+  left: 0;
+  top: $app-toolbar-height;
+  right: 0;
+  bottom: 0;
+}

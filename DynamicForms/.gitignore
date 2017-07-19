@@ -1,1 +1,4 @@
 /Dependencies/
+/wwwroot/jspm_packages/
+/wwwroot/node_modules/
+/wwwroot/styles/

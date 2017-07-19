@@ -41,6 +41,9 @@ namespace DynamicForms
             loggerFactory.AddDebug();
 
             app.UseMvc();
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
         }
     }
 }

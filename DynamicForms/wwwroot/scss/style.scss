@@ -1,0 +1,24 @@
+@import './../jspm_packages/npm/pragma-views@0.0.60/scss/style.scss';
+
+h1 {
+  padding-left: $default-padding;
+}
+
+.bottom-toolbar {
+  position: absolute;
+  height: $options-toolbar-height;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  background: $common-background;
+
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem;
+
+  button {
+    width: 6rem;
+  }
+}
+
