@@ -28,7 +28,8 @@ namespace DynamicForms.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            var section = Form.Instance.Section(id);
+            return section.ToSchema();
         }
     }
 

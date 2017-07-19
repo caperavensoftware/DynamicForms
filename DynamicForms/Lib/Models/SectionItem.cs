@@ -21,9 +21,9 @@ namespace DynamicForms.Lib.Models
             DataType = result[2];
         }
 
-        public JObject ToSchema()
+        public string ToSchema()
         {
-            throw new System.NotImplementedException();
+            return "";
         }
     }
 }

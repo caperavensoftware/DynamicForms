@@ -3,4 +3,4 @@ field2;Question 2;number;;
 field3;Question 3;date;;
 field4;Question 4;memo;;
 field5;Please sign;label;;
-field6;Question 5;signature;;
+field6;Question 5;text;;

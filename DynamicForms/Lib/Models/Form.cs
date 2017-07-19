@@ -15,7 +15,7 @@ namespace DynamicForms.Lib.Models
         }
 
         public Form()
-        {
+        { 
             Sections = new List<Section>();
         }
               
@@ -32,6 +32,11 @@ namespace DynamicForms.Lib.Models
                 section.Parse(csv);
                 Sections.Add(section);
             }            
-        }        
+        }
+
+        public Section Section(int id)
+        {
+            return Sections.Find(item => item.Id == id);
+        }
     }        
 }

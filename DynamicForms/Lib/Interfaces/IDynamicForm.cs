@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.JsonPatch.Internal;
-using Newtonsoft.Json.Linq;
-
-namespace DynamicForms.Lib
+﻿namespace DynamicForms.Lib.Interfaces
 {
     public interface IDynamicForm
     {
@@ -9,6 +6,6 @@ namespace DynamicForms.Lib
         string Name { get; set; }
 
         void Parse(string csv);
-        JObject ToSchema();
+        string ToSchema();
     }
 }

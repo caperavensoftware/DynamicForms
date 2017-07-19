@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using DynamicForms.Lib.Interfaces;
 using Newtonsoft.Json.Linq;
 
@@ -11,6 +13,13 @@ namespace DynamicForms.Lib.Models
         public string Description { get; set; }
         public string FileName { get; set; }
         
+        public List<SectionItem> Items { get; set; }
+
+        public Section()
+        {
+            Items = new List<SectionItem>();
+        }
+        
         public void Parse(string csv)
         {
             string[] result = csv.Split(';');
@@ -19,11 +28,29 @@ namespace DynamicForms.Lib.Models
             Name = result[1];
             Description = result[2];
             FileName = result[3];
+
+            LoadItemsFromFile();
         }
 
-        public JObject ToSchema()
+        private void LoadItemsFromFile()
         {
-            return null;
+            var reader = File.OpenText("./Form-Data/" + FileName);
+
+            while (reader.Peek() >= 0)
+            {
+                var csv = reader.ReadLine();
+                SectionItem item = new SectionItem();
+                item.Parse(csv);
+                Items.Add(item);
+            }                        
+            
+            Console.WriteLine("Section: " + Name);
+            Console.WriteLine("Count: " + Items.Count);
+        }
+
+        public string ToSchema()
+        {
+            return "Schema for " + Id.ToString();
         }
     }
 }
