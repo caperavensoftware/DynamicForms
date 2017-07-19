@@ -1,13 +1,37 @@
-import {bindable} from 'aurelia-framework';
+import {bindable, inject} from 'aurelia-framework';
+import {EventAggregator} from 'aurelia-event-aggregator';
 import {HttpClient} from 'aurelia-fetch-client';
+import {SchemaProcess} from './schema-process';
+import {DynamicViewLoader, TemplateParser} from 'pragma-views';
 
+@inject(EventAggregator, DynamicViewLoader)
 export class Welcome {
     items;
+    schemaProcess;
 
     @bindable selectedId;
+    @bindable currentSchema;
+    @bindable currentModel;
+
+    constructor(eventAggregator, dynamicViewLoader, templateParser) {
+        this.eventAggregator = eventAggregator;
+        this.dynamicViewLoader = dynamicViewLoader;
+        this.templateParser = new TemplateParser("model");
+    }
 
     attached() {
         this.fetchSections();
+
+        this.newSchemaHandler = this.newSchema.bind(this);
+        this.newSchemaEvent = this.eventAggregator.subscribe("new-schema", this.newSchemaHandler);
+    }
+
+    detached() {
+        this.newSchemaEvent.dispose();
+        this.newSchemaEvent = null;
+        this.newSchemaHandler = null;
+        this.templateParser.dispose();
+        this.templateParser = null;
     }
 
     fetchSections() {
@@ -20,7 +44,42 @@ export class Welcome {
             });
     }
 
-    selectedIdChanged(newValue) {
-        console.log(newValue);
+    startProcess() {
+        if (this.schemaProcess) {
+            this.schemaProcess.dispose();
+        }
+
+        this.schemaProcess = new SchemaProcess(this.selectedId, this.eventAggregator);
+        this.aside.classList.remove("closed");
+    }
+
+    endProcess() {
+        this.aside.classList.add("closed");
+        this.currentSchema = null;
+        this.currentModel = null;
+        this.schemaProcess.dispose();
+        this.schemaProcess = null;
+    }
+
+    newSchema(event) {
+        this.currentModel = event.model;
+        this.currentSchema = event.schema;
+
+        this.templateParser.parse(this.currentSchema)
+            .then(html => {
+                this.dynamicViewLoader.load(html, this.detailsElement, this)
+            });
+    }
+
+    cancel() {
+        this.endProcess();
+    }
+
+    next() {
+        this.schemaProcess.next();
+    }
+
+    previous() {
+        this.schemaProcess.previous();
     }
 }
