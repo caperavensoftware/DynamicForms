@@ -22,11 +22,6 @@ namespace DynamicForms
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
             
-            LoadForm();
-        }
-
-        void LoadForm()
-        {
             Form.Instance.LoadFromFile();
         }
 
