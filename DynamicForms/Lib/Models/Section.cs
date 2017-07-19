@@ -58,8 +58,11 @@ namespace DynamicForms.Lib.Models
             form.fields = GetFieldMap();
             form.body = new ExpandoObject();
             form.body.elements = new List<ExpandoObject>();
-            
-            
+
+            foreach (SectionItem item in Items)
+            {
+                form.body.elements.Add(item.ToSchema());
+            }
             
             return JsonConvert.SerializeObject(form);
         }
