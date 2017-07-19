@@ -6,6 +6,6 @@
         string Name { get; set; }
 
         void Parse(string csv);
-        string ToSchema();
+        dynamic ToSchema();
     }
 }

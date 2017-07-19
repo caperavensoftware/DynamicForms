@@ -1,6 +1,5 @@
-﻿using DynamicForms.Lib.Interfaces;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json.Linq;
+﻿using System.Dynamic;
+using DynamicForms.Lib.Interfaces;
 
 namespace DynamicForms.Lib.Models
 {
@@ -21,9 +20,45 @@ namespace DynamicForms.Lib.Models
             DataType = result[2];
         }
 
-        public string ToSchema()
+        public dynamic ToSchema()
         {
-            return "";
+            switch (DataType)
+            {
+                case "date":
+                    return CreateInputElement("date");
+                case "number":
+                    return CreateInputElement("number");
+                case "memo":
+                    return CreateInputElement("memo");
+                case "label":
+                    return CreateLabelSchema();
+            }
+
+            return CreateInputElement("text");
+        }
+        
+        private dynamic CreateLabelSchema()
+        {
+            dynamic schema = new ExpandoObject();
+
+            schema.element = "input";
+            schema.content = "${" + Name + "}";
+
+            return schema;            
+        }
+
+        private dynamic CreateInputElement(string jsType)
+        {
+            dynamic schema = new ExpandoObject();
+            
+            schema.element = "input";
+            schema.title = Label;
+            schema.field = Name;
+            
+            schema.attributes = new ExpandoObject();
+            schema.attributes.type = jsType;
+
+            return schema;
         }
     }
 }

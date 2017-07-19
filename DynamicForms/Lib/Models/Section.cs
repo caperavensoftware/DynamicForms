@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using DynamicForms.Lib.Interfaces;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace DynamicForms.Lib.Models
@@ -48,9 +51,41 @@ namespace DynamicForms.Lib.Models
             Console.WriteLine("Count: " + Items.Count);
         }
 
-        public string ToSchema()
+        public dynamic ToSchema()
         {
-            return "Schema for " + Id.ToString();
+            dynamic form = new ExpandoObject();
+            
+            form.fields = GetFieldMap();
+            form.body = new ExpandoObject();
+            form.body.elements = new List<ExpandoObject>();
+            
+            
+            
+            return JsonConvert.SerializeObject(form);
+        }
+
+        private List<FieldMap> GetFieldMap()
+        {
+            var result = new List<FieldMap>();
+            
+            foreach (SectionItem item in Items)
+            {
+                result.Add(new FieldMap(item.Name));
+            }
+            
+            return result;
+        }
+    }
+
+    class FieldMap
+    {
+        public string field { get; set; }
+        public string map { get; set; }
+
+        public FieldMap(string fieldName)
+        {
+            field = fieldName;
+            map = fieldName;
         }
     }
 }
