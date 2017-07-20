@@ -38,6 +38,9 @@ namespace DynamicForms.Controllers
         public void Post([FromBody] JArray value)
         {
             var dynamicCollection = value.ToObject<dynamic[]>();
+            
+            var pdf = new Pdf();
+            pdf.Parse(dynamicCollection);
         }
     }
 

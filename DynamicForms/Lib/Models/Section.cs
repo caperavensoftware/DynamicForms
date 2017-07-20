@@ -35,6 +35,17 @@ namespace DynamicForms.Lib.Models
             LoadItemsFromFile();
         }
 
+        public void ToPdf(List<FieldValue> values)
+        {
+            foreach (var value in values)
+            {
+                var item = this.Items.Find(i => i.Name == value.Field);
+                item.Value = value.Value;
+            }
+            
+            // Generate PDF Content from Items Property using each 
+        }
+        
         private void LoadItemsFromFile()
         {
             var reader = File.OpenText("./Form-Data/" + FileName);
@@ -77,11 +88,12 @@ namespace DynamicForms.Lib.Models
             }
             
             return result;
-        }
+        }        
     }
 
     class FieldMap
     {
+        // These must be lowecase so that it is appropriate casing on the client side.
         public string field { get; set; }
         public string map { get; set; }
 
