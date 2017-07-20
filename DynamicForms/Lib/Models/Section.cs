@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
+using System.Linq;
 using DynamicForms.Lib.Interfaces;
 using Newtonsoft.Json;
 using Xfinium.Pdf;
@@ -52,6 +53,12 @@ namespace DynamicForms.Lib.Models
             form.fields = GetFieldMap();
             form.body = new ExpandoObject();
             form.body.elements = new List<ExpandoObject>();
+
+            dynamic heading = new ExpandoObject();
+            heading.element = "h2";
+            heading.content = Name;
+            
+            form.body.elements.Add(heading);
 
             foreach (var item in Items)
                 form.body.elements.Add(item.ToSchema());
