@@ -18,11 +18,18 @@ namespace DynamicForms.Lib.Models
         
         public List<SectionItem> Items { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Section()
         {
             Items = new List<SectionItem>();
         }
         
+        /// <summary>
+        /// Parse csv string and initialize the section from that text
+        /// </summary>
+        /// <param name="csv">Comma seperated string list to process</param>
         public void Parse(string csv)
         {
             string[] result = csv.Split(';');
@@ -35,6 +42,10 @@ namespace DynamicForms.Lib.Models
             LoadItemsFromFile();
         }
 
+        /// <summary>
+        /// Update the items with the given values and generate pdf parts to use in the main document
+        /// </summary>
+        /// <param name="values"></param>
         public void ToPdf(List<FieldValue> values)
         {
             foreach (var value in values)
@@ -45,6 +56,7 @@ namespace DynamicForms.Lib.Models
             
             // Generate PDF Content from Items Property using each 
         }
+        
         
         private void LoadItemsFromFile()
         {
