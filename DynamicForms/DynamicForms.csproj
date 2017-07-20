@@ -3,6 +3,7 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="PDFResult" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
@@ -10,5 +11,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
+    <PackageReference Include="Xfinium.Pdf.NetCore" Version="6.8.0.2" />
+    <PackageReference Include="Xfinium.Pdf.Render.NetCore" Version="6.8.0.2" />
   </ItemGroup>
 </Project>
