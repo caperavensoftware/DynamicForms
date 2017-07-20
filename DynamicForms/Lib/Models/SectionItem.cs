@@ -24,6 +24,8 @@ namespace DynamicForms.Lib.Models
         {
             switch (DataType)
             {
+                case "boolean":
+                    return CreateBooleanElement();
                 case "date":
                     return CreateInputElement("date");
                 case "number":
@@ -35,6 +37,17 @@ namespace DynamicForms.Lib.Models
             }
 
             return CreateInputElement("text");
+        }
+
+        private dynamic CreateBooleanElement()
+        {
+            dynamic schema = new ExpandoObject();
+
+            schema.element = "checkbox";
+            schema.title = Label;
+            schema.field = Name;
+            
+            return schema;
         }
         
         private dynamic CreateLabelSchema()
