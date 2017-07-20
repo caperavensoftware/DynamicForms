@@ -1,0 +1,51 @@
+@import './../../jspm_packages/npm/pragma-views@0.0.60/scss/lib/variables.scss';
+@import './../../jspm_packages/npm/pragma-views@0.0.60/scss/lib/colors.scss';
+@import './../../jspm_packages/npm/pragma-views@0.0.60/scss/lib/mixins.scss';
+
+ul {
+  position: absolute;
+  top: 0;
+  bottom: $options-toolbar-height + $default-padding;
+  left: 0;
+  right: 0;
+}
+
+aside {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999999;
+
+  background: $common-background;
+  will-change: transform;
+  transition: transform 0.2s ease-out;
+}
+
+aside.closed {
+  transform: translateX(-110%);
+}
+
+div[ref="detailsElement"] {
+  position: absolute;
+  top: $default-padding;
+  bottom: $options-toolbar-height + $default-padding;
+  left: $default-padding;
+  right: $default-padding;
+
+  @include overflow-scroll(scroll, touch);
+}
+
+button[disabled] {
+  opacity: 0.5;
+}
+
+.checkbox-composite {
+  padding: $half-padding;
+}
+
+h2 {
+  opacity: 0.5;
+  margin-bottom: $default-padding;
+}
