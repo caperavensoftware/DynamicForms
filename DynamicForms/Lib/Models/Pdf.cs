@@ -53,7 +53,7 @@ namespace DynamicForms.Lib.Models
                 valuesToProcess.Add(fv);
             }
             
-            this.CurrentPage = section.ToPdf(valuesToProcess, this.CurrentPage, this.PdfDocument);         
+            this.CurrentPage = section.ToPdf(valuesToProcess, null, PdfDocument);         
         }
 
         public void Save(string fileName)
