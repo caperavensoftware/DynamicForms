@@ -10,8 +10,8 @@ export class Welcome {
 
     @bindable schemaProcess;
     @bindable selectedId;
-    @bindable currentSchema;
-    @bindable currentModel;
+    @bindable schema;
+    @bindable model;
 
     constructor(eventAggregator, dynamicViewLoader, templateParser) {
         this.eventAggregator = eventAggregator;
@@ -56,17 +56,17 @@ export class Welcome {
 
     endProcess() {
         this.aside.classList.add("closed");
-        this.currentSchema = null;
-        this.currentModel = null;
+        this.schema = null;
+        this.model = null;
         this.schemaProcess.dispose();
         this.schemaProcess = null;
     }
 
-    newSchema(event) {
-        this.currentModel = event.model;
-        this.currentSchema = event.schema;
+    newSchema() {
+        this.model = this.schemaProcess.schemas[this.schemaProcess.currentIndex].model;
+        this.schema = this.schemaProcess.schemas[this.schemaProcess.currentIndex].schema;
 
-        this.templateParser.parse(this.currentSchema)
+        this.templateParser.parse(this.schema)
             .then(html => {
                 this.dynamicViewLoader.load(html, this.detailsElement, this)
             });

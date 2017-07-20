@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using DynamicForms.Lib.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace DynamicForms.Controllers
 {
@@ -30,6 +32,12 @@ namespace DynamicForms.Controllers
         {
             var section = Form.Instance.Section(id);
             return section.ToSchema();
+        }
+
+        [HttpPost]
+        public void Post([FromBody] JArray value)
+        {
+            var dynamicCollection = value.ToObject<dynamic[]>();
         }
     }
 
