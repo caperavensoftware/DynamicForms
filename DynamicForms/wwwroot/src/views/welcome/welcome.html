@@ -8,7 +8,7 @@
     </ul>
 
     <div class="bottom-toolbar">
-        <button class="action" click.delegate="startProcess()">Start</button>
+        <button class="action" click.delegate="startProcess()" if.bind="selectedId.length > 0">Start</button>
     </div>
 
     <aside class="closed" ref="aside">
@@ -17,8 +17,8 @@
         <div class="bottom-toolbar">
             <button click.delegate="cancel()">Cancel</button>
             <div class="stretch"></div>
-            <button class="default-margin-right" click.delegate="previous()">Previous</button>
-            <button class="action" click.delegate="next()">Next</button>
+            <button class="default-margin-right" click.delegate="previous()" if.bind="selectedId.length > 1" disabled.bind="schemaProcess.currentIndex == 0">Previous</button>
+            <button class="action" click.delegate="next()">${nextCaption}</button>
         </div>
     </aside>
 </template>

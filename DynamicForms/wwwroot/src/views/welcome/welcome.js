@@ -7,8 +7,8 @@ import {DynamicViewLoader, TemplateParser} from 'pragma-views';
 @inject(EventAggregator, DynamicViewLoader)
 export class Welcome {
     items;
-    schemaProcess;
 
+    @bindable schemaProcess;
     @bindable selectedId;
     @bindable currentSchema;
     @bindable currentModel;
@@ -24,6 +24,7 @@ export class Welcome {
 
         this.newSchemaHandler = this.newSchema.bind(this);
         this.newSchemaEvent = this.eventAggregator.subscribe("new-schema", this.newSchemaHandler);
+        this.nextCaption = "Next";
     }
 
     detached() {
