@@ -2,3 +2,4 @@ field1;Question 1;text;;
 field2;Question 2;text;;
 field3;Question 3;boolean;;
 field4;Question 4;boolean;;
+field5;Question 5;date;;

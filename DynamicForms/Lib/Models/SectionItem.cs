@@ -1,5 +1,6 @@
 ﻿using System.Dynamic;
 using DynamicForms.Lib.Interfaces;
+using Xfinium.Pdf;
 
 namespace DynamicForms.Lib.Models
 {
@@ -37,6 +38,11 @@ namespace DynamicForms.Lib.Models
             }
 
             return CreateInputElement("text");
+        }
+
+        public void ToPdf(PdfPage page)
+        {
+            
         }
 
         private dynamic CreateBooleanElement()

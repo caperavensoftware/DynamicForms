@@ -3,38 +3,37 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using DynamicForms.Lib.Interfaces;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Xfinium.Pdf;
 
 namespace DynamicForms.Lib.Models
 {
     public class Section : ISection
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string FileName { get; set; }
-        
-        public List<SectionItem> Items { get; set; }
-
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         public Section()
         {
             Items = new List<SectionItem>();
         }
-        
+
+        public string FileName { get; set; }
+
+        public List<SectionItem> Items { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+
         /// <summary>
-        /// Parse csv string and initialize the section from that text
+        ///     Parse csv string and initialize the section from that text
         /// </summary>
         /// <param name="csv">Comma seperated string list to process</param>
         public void Parse(string csv)
         {
-            string[] result = csv.Split(';');
-            
-            Id = Int32.Parse(result[0]);
+            var result = csv.Split(';');
+
+            Id = int.Parse(result[0]);
             Name = result[1];
             Description = result[2];
             FileName = result[3];
@@ -43,21 +42,49 @@ namespace DynamicForms.Lib.Models
         }
 
         /// <summary>
-        /// Update the items with the given values and generate pdf parts to use in the main document
+        ///     Save this section to a schema to be used by client
+        /// </summary>
+        /// <returns></returns>
+        public dynamic ToSchema()
+        {
+            dynamic form = new ExpandoObject();
+
+            form.fields = GetFieldMap();
+            form.body = new ExpandoObject();
+            form.body.elements = new List<ExpandoObject>();
+
+            foreach (var item in Items)
+                form.body.elements.Add(item.ToSchema());
+
+            return JsonConvert.SerializeObject(form);
+        }
+
+        /// <summary>
+        ///     Update the items with the given values and generate pdf parts to use in the main document
         /// </summary>
         /// <param name="values"></param>
-        public void ToPdf(List<FieldValue> values)
+        /// <param name="page"></param>
+        /// <param name="document"></param>
+        public PdfPage ToPdf(List<FieldValue> values, PdfPage page, PdfFixedDocument document)
         {
+            var printSheet = page ?? document.Pages.Add();
+
+            PdfHelper.AddHeader(printSheet, document, Name);
+
             foreach (var value in values)
             {
-                var item = this.Items.Find(i => i.Name == value.Field);
+                var item = Items.Find(i => i.Name == value.Field);
                 item.Value = value.Value;
+
+                item.ToPdf(printSheet);
             }
-            
-            // Generate PDF Content from Items Property using each 
+
+            return printSheet;
         }
-        
-        
+
+        /// <summary>
+        ///     Load schema from file and initialize it's items
+        /// </summary>
         private void LoadItemsFromFile()
         {
             var reader = File.OpenText("./Form-Data/" + FileName);
@@ -65,54 +92,44 @@ namespace DynamicForms.Lib.Models
             while (reader.Peek() >= 0)
             {
                 var csv = reader.ReadLine();
-                SectionItem item = new SectionItem();
+                var item = new SectionItem();
                 item.Parse(csv);
                 Items.Add(item);
-            }                        
-            
+            }
+
             Console.WriteLine("Section: " + Name);
             Console.WriteLine("Count: " + Items.Count);
         }
 
-        public dynamic ToSchema()
-        {
-            dynamic form = new ExpandoObject();
-            
-            form.fields = GetFieldMap();
-            form.body = new ExpandoObject();
-            form.body.elements = new List<ExpandoObject>();
-
-            foreach (SectionItem item in Items)
-            {
-                form.body.elements.Add(item.ToSchema());
-            }
-            
-            return JsonConvert.SerializeObject(form);
-        }
-
+        /// <summary>
+        ///     Build client schema's fields section from the section items
+        /// </summary>
+        /// <returns></returns>
         private List<FieldMap> GetFieldMap()
         {
             var result = new List<FieldMap>();
-            
-            foreach (SectionItem item in Items)
-            {
+
+            foreach (var item in Items)
                 result.Add(new FieldMap(item.Name));
-            }
-            
+
             return result;
-        }        
+        }
     }
 
-    class FieldMap
+    /// <summary>
+    ///     Class that defines field map for client schema
+    /// </summary>
+    internal class FieldMap
     {
-        // These must be lowecase so that it is appropriate casing on the client side.
-        public string field { get; set; }
-        public string map { get; set; }
-
         public FieldMap(string fieldName)
         {
             field = fieldName;
             map = fieldName;
         }
+
+        // These must be lowecase so that it is appropriate casing on the client side.
+        public string field { get; set; }
+
+        public string map { get; set; }
     }
 }

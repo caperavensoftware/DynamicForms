@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.JsonPatch.Internal;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json.Linq;
 using Xfinium.Pdf;
 using Xfinium.Pdf.Core.Security;
@@ -11,8 +12,19 @@ using Xfinium.Pdf.Graphics.FormattedContent;
 
 namespace DynamicForms.Lib.Models
 {
+    /// <summary>
+    /// Develop the PDF document for the current selection and values
+    /// </summary>
     public class Pdf
     {
+        public PdfFixedDocument PdfDocument { get; set; }
+        public PdfPage CurrentPage { get; set; }
+        
+        public Pdf()
+        {
+            PdfDocument = new PdfFixedDocument();
+        }
+        
         public void Parse(dynamic[] collection)
         {
             foreach (var item in collection)
@@ -21,20 +33,8 @@ namespace DynamicForms.Lib.Models
                 var model = item["model"];
                 ProcessSection(id, model);
             }
-            
-            PdfFixedDocument document = new PdfFixedDocument();
-            
-            PdfPage page = document.Pages.Add();
-            // Create a standard font with Helvetica face and 24 point size
-            PdfStandardFont helvetica = new PdfStandardFont(PdfStandardFontFace.Helvetica, 24);
-            // Create a solid RGB red brush.
-            PdfBrush brush = new PdfBrush(PdfRgbColor.Red);
-            // Draw the text on the page.
-            page.Graphics.DrawString("Hello World", helvetica, brush, 100, 100);
-            
-            FileStream outStream = File.OpenWrite("./PDFResult/test.pdf");
-            document.Save(outStream);    
-            outStream.Flush();
+
+            Save("./PDFResult/test.pdf");
         }
         
         private void ProcessSection(int id, JObject values)
@@ -43,7 +43,7 @@ namespace DynamicForms.Lib.Models
 
             List<FieldValue> valuesToProcess = new List<FieldValue>(); 
             
-            var properties = values.Properties();
+            var properties = values.Properties();           
             foreach (var property in properties)
             {
                 var key = property.Name;
@@ -53,8 +53,15 @@ namespace DynamicForms.Lib.Models
                 valuesToProcess.Add(fv);
             }
             
-            section.ToPdf(valuesToProcess);            
-        }        
-    }
-    
+            this.CurrentPage = section.ToPdf(valuesToProcess, this.CurrentPage, this.PdfDocument);         
+        }
+
+        public void Save(string fileName)
+        {
+            FileStream stream = File.OpenWrite(fileName);
+            PdfDocument.Save(stream);
+            stream.Flush();
+            stream = null;
+        }
+    }    
 }
