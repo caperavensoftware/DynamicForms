@@ -25,3 +25,20 @@ h1 {
 button {
   cursor: pointer;
 }
+
+
+.checkbox-composite {
+  display: grid;
+  grid-template-columns: $default-padding auto;
+  width: 100%;
+
+  input {
+    grid-column: 1;
+  }
+
+  label {
+    margin-left: $default-padding;
+    grid-column: 2;
+  }
+}
+

@@ -51,7 +51,6 @@ export class Welcome {
         }
 
         const result = this.selectedId.sort((a,b) => a > b);
-        console.log(result);
         
         this.schemaProcess = new SchemaProcess(this.selectedId, this.eventAggregator);
         this.aside.classList.remove("closed");
@@ -73,6 +72,8 @@ export class Welcome {
             .then(html => {
                 this.dynamicViewLoader.load(html, this.detailsElement, this)
             });
+
+        requestAnimationFrame(_ => this.detailsElement.scrollTop = 0);
     }
 
     cancel() {

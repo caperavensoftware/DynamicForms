@@ -35,7 +35,7 @@ namespace DynamicForms.Lib.Models
                 case "number":
                     return CreateInputElement("number");
                 case "memo":
-                    return CreateInputElement("textarea");
+                    return CreateMemoElement();
                 case "label":
                     return CreateLabelSchema();
                 case "heading":
@@ -76,9 +76,20 @@ namespace DynamicForms.Lib.Models
             dynamic schema = new ExpandoObject();
 
             schema.element = "h2";
-            schema.content = Name;
+            schema.content = Label;
 
             return schema;                        
+        }
+
+        private dynamic CreateMemoElement()
+        {
+            dynamic schema = new ExpandoObject();
+
+            schema.element = "memo";
+            schema.title = Label;
+            schema.field = Name;
+            
+            return schema;    
         }
 
         private dynamic CreateInputElement(string jsType)
