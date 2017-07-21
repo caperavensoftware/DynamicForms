@@ -1,6 +1,7 @@
 ﻿using System.Dynamic;
 using DynamicForms.Lib.Interfaces;
 using Xfinium.Pdf;
+using Xfinium.Pdf.FlowDocument;
 
 namespace DynamicForms.Lib.Models
 {
@@ -29,20 +30,24 @@ namespace DynamicForms.Lib.Models
                     return CreateBooleanElement();
                 case "date":
                     return CreateInputElement("date");
+                case "time":
+                    return CreateInputElement("time");
                 case "number":
                     return CreateInputElement("number");
                 case "memo":
-                    return CreateInputElement("memo");
+                    return CreateInputElement("textarea");
                 case "label":
                     return CreateLabelSchema();
+                case "heading":
+                    return CreateHeadingSchema();
             }
 
             return CreateInputElement("text");
         }
 
-        public void ToPdf(PdfPage page)
+        public void ToPdf(PdfPage page, PdfFlowTableContent table)
         {
-            
+            table.Rows.AddRowWithCells(Label, Value);
         }
 
         private dynamic CreateBooleanElement()
@@ -64,6 +69,16 @@ namespace DynamicForms.Lib.Models
             schema.content = "${" + Name + "}";
 
             return schema;            
+        }
+
+        private dynamic CreateHeadingSchema()
+        {
+            dynamic schema = new ExpandoObject();
+
+            schema.element = "h2";
+            schema.content = Name;
+
+            return schema;                        
         }
 
         private dynamic CreateInputElement(string jsType)

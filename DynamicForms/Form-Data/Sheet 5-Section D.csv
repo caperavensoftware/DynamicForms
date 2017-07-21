@@ -1,0 +1,14 @@
+field1;Underground piping verified and marked;boolean
+field2;Underground electric cables verified and marked;boolean
+field3;Underground utilities verified and marked;boolean
+field4;Underground piping isolation required;boolean
+field5;Underground electric cables isolation required;boolean
+field6;Underground utilities (e.g. natural gas) isolation required;boolean
+field7;Above ground services (e.g. electrical) have been identified;boolean
+field8;Above ground services isolation required;boolean
+field9;Sufficient barricades erected fit for purpose;boolean
+field10;Safe access into/from excavation required;boolean
+field11;Excavation to be shored/sloped/benched as required (to be passed on soil survey);boolean
+field12;Verification that excavation will not affect any work in progress;boolean
+field13;List all drawing numbers attached;memo
+field14;List any additional precautions/special instructions required for excavation work;memo

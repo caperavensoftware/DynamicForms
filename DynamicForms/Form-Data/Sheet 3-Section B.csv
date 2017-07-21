@@ -1,0 +1,18 @@
+field1;Hacksawing;boolean
+field2;Hammering;boolean
+field3;Drilling;boolean
+field4;Filing;boolean
+field5;Chipping;boolean
+field6;Grinding;boolean
+field7;Arc Welding;boolean
+field8;Infusion welding;boolean
+field9;Soldering;boolean
+field10;Oxy‐Acetylene;boolean
+field11;Other;memo
+field12;All provisions and requirements specified on the associated General Work Permit met;boolean
+field13;All equipment is positively isolated;boolean
+field14;Fire extinguishers located at job site;boolean
+field15;Fire hose / Water hose required at site;boolean
+field16;Spark containment required;boolean
+field17;All surface drains covered within 15 meters (50ft) of job site;boolean
+field18;Additional instructions, conditions and/or requirements listed below have been met;boolean

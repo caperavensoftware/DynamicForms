@@ -28,7 +28,8 @@ export class SchemaProcess {
 
     next() {
         if (this.atEnd == true) {
-            return this.updateServer();
+            this.updateServer();
+            return false;
         }
 
         if (this.currentIndex < this.idCollection.length -1) {
@@ -37,6 +38,7 @@ export class SchemaProcess {
 
         this.atEnd = this.currentIndex == this.idCollection.length -1;
         this.getCurrentSchema();
+        return true;
     }
 
     previous() {

@@ -50,6 +50,9 @@ export class Welcome {
             this.schemaProcess.dispose();
         }
 
+        const result = this.selectedId.sort((a,b) => a > b);
+        console.log(result);
+        
         this.schemaProcess = new SchemaProcess(this.selectedId, this.eventAggregator);
         this.aside.classList.remove("closed");
     }
@@ -77,7 +80,9 @@ export class Welcome {
     }
 
     next() {
-        this.schemaProcess.next();
+        if (this.schemaProcess.next() == false) {
+            this.cancel();
+        }
     }
 
     previous() {

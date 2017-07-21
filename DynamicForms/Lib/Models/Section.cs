@@ -6,6 +6,7 @@ using System.Linq;
 using DynamicForms.Lib.Interfaces;
 using Newtonsoft.Json;
 using Xfinium.Pdf;
+using Xfinium.Pdf.FlowDocument;
 
 namespace DynamicForms.Lib.Models
 {
@@ -77,14 +78,18 @@ namespace DynamicForms.Lib.Models
             var printSheet = page ?? document.Pages.Add();
 
             PdfHelper.AddHeader(printSheet, document, Name);
+                      
+            PdfFlowTableContent table = new PdfFlowTableContent(2);
+            table.MinRowHeight = 15;
 
             foreach (var value in values)
             {
                 var item = Items.Find(i => i.Name == value.Field);
                 item.Value = value.Value;
 
-                item.ToPdf(printSheet);
+                item.ToPdf(printSheet, table);
             }
+
 
             return printSheet;
         }

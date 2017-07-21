@@ -1,0 +1,38 @@
+field1;Permit valid from;date
+field2;Permit valid to;date
+field3;Time from;time
+field4;Time to;time
+field5;Permit Requester/Holder;text
+field6;Company Name of Requester/Holder;text
+field7;Equipment No. (Asset Tag No.);text
+field8;Facility (Site Name);text
+field9;Job Site Location (Physical Address);text
+field10;Description of job (refer job card);text
+field11;Hot Work Form (Section B);boolean
+field12;Confined Space Entry Form (Section C);boolean
+field13;Electrical & Mechanical Isolation Form (Section E);boolean
+field14;Gas Testing Required (Complete Section H & I);boolean
+field15;JSA Required;boolean
+field16;EIA Required and Issued;boolean
+field17;Respiratory protection required type;text
+;Permit Issuer to check;heading
+field18;Standby person required during performance of work:;boolean
+field19;PPE’S Required: (Complete Section M);boolean
+field20;Equipment to be depressurized and drained;boolean
+field21;All energy sources to equipment isolated, locked and tagged (Lock Out & Tag Out);boolean
+field22;MSDS provided, hazards reviewed – list chemicals;boolean
+field23;Area is required to be barricaded with warning signs installed;boolean
+field24;Approved 2‐way radio required on site;boolean
+field25;Fall protection required;boolean
+field26;Approved scaffolding is required to perform the job task;boolean
+field27;Contractor is required to provide a HES plan;boolean
+field28;The work required a ‘Management of Work’ (MOC) completed;boolean
+field29;Permit Holder required to conduct a safety briefly prior to the start of work;boolean
+field30;Additional instructions, conditions and/or requirements listed below and have been met;boolean
+field31;Potential health risk (Inhalation, skin contact);boolean
+;Number of workers;heading
+field32;Professional;number
+field33;Artisan;number
+field34;Skilled;number
+field35;Unskilled;number
+field36;Labourers;number

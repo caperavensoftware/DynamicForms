@@ -1,0 +1,18 @@
+field1;Specify tank or equipment to be entered;text
+field2;Reason for entry;text
+field3;Previous content of tank/equipment;text
+field3;All provisions and requirements specified on the associated General Work Permit met;boolean
+field4;Equipment positively isolated from all energy sources;boolean
+field5;Respiratory equipment required;boolean
+field6;Approved entry watch location at entry point;boolean
+field7;Fire extinguishers located at site;boolean
+field8;Temperature of confined space between acceptable limits (<37.8°C or 100° F);boolean
+field9;Ph is between acceptable range to allow for safe entry (6‐8 Ph);boolean
+field10;Mechanical ventilation in place and vented to safe location;boolean
+field11;Where applicable Pyrophoric Iron precautions taken;boolean
+field12;Lifeline required worn by personnel entering space;boolean
+field13;Special PPE equipment and/or clothing required;boolean
+field14;Area barricaded with warning signs installed;boolean
+field15;Trained rescue personnel and rescue equipment on hand;boolean
+field16;Confined space is under inert atmosphere and restricted to contractor specialized in inert entry;boolean
+field17;Additional instructions, conditions and requirements listed below have been met;boolean
