@@ -65,13 +65,7 @@ namespace DynamicForms.Lib.Models
             form.body = new ExpandoObject();
             form.body.elements = new List<ExpandoObject>();
 
-            dynamic heading = new ExpandoObject();
-            heading.element = "h2";
-            heading.content = Name;
-
             var currentParent = form.body.elements;
-            
-            currentParent.Add(heading);
 
             foreach (var item in Items)
             {

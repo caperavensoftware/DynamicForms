@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
+using System.Text.RegularExpressions;
 using DynamicForms.Lib.Interfaces;
+using Newtonsoft.Json;
 using Xfinium.Pdf;
 using Xfinium.Pdf.FlowDocument;
 
@@ -12,7 +15,7 @@ namespace DynamicForms.Lib.Models
         public string Name { get; set; }
         public string Label { get; set; }
         public string DataType { get; set; }
-        public string DetailId { get; set; }
+        public int DetailId { get; set; }
         public object Value { get; set; }
 
         public void Parse(string csv)
@@ -25,7 +28,7 @@ namespace DynamicForms.Lib.Models
 
             if (DataType == "detail")
             {
-                DetailId = result[3];
+                DetailId = Convert.ToInt32(result[3]);
             }   
         }
 
@@ -129,12 +132,21 @@ namespace DynamicForms.Lib.Models
 
         private dynamic CreateDetailSchema()
         {
-            Section detailSection = new Section();
-            detailSection.Parse("0;detail;detail;" + DetailId);
-            var childrenSchema = detailSection.ToSchema();
+            var childSchema = Form.Instance.Section(DetailId);
+            var childrenSchema = childSchema.ToSchema();
+            var childrenObject = JsonConvert.DeserializeObject(childrenSchema);
+            var datasource = Regex.Replace(childSchema.Name, @"\s+", "").ToLower();
             
             dynamic schema = new ExpandoObject();
 
+            schema.id = DetailId;
+            schema.element = "details";
+            schema.datasource = datasource;
+            schema.createInstance = "createInstance";
+            schema.dsreference = datasource;
+            schema.elements = childrenObject.body.elements;
+            schema.fields = childrenObject.fields;
+            
             return schema;
         }
     }
