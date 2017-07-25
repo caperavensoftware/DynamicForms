@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using DynamicForms.Lib.Interfaces;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 using Xfinium.Pdf;
 using Xfinium.Pdf.FlowDocument;
@@ -58,11 +61,28 @@ namespace DynamicForms.Lib.Models
             dynamic heading = new ExpandoObject();
             heading.element = "h2";
             heading.content = Name;
+
+            var currentParent = form.body.elements;
             
-            form.body.elements.Add(heading);
+            currentParent.Add(heading);
 
             foreach (var item in Items)
-                form.body.elements.Add(item.ToSchema());
+            {
+                dynamic schema =  ((IDictionary<String, Object>) item.ToSchema());
+
+                if (schema.element == "group")
+                {
+                    form.body.elements.Add(schema);
+
+                    schema.elements = new List<ExpandoObject>();
+                    currentParent = schema.elements;
+                }
+                else
+                {
+                    currentParent.Add(schema);
+                }
+            }
+                
 
             return JsonConvert.SerializeObject(form);
         }

@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System.Collections.Generic;
+using System.Dynamic;
 using DynamicForms.Lib.Interfaces;
 using Xfinium.Pdf;
 using Xfinium.Pdf.FlowDocument;
@@ -40,6 +41,8 @@ namespace DynamicForms.Lib.Models
                     return CreateLabelSchema();
                 case "heading":
                     return CreateHeadingSchema();
+                case "group":
+                    return CreateGroupSchema();
             }
 
             return CreateInputElement("text");
@@ -103,6 +106,16 @@ namespace DynamicForms.Lib.Models
             schema.attributes = new ExpandoObject();
             schema.attributes.type = jsType;
 
+            return schema;
+        }
+
+        private dynamic CreateGroupSchema()
+        {
+            dynamic schema = new ExpandoObject();
+
+            schema.element = "group";
+            schema.title = Label;
+            
             return schema;
         }
     }
