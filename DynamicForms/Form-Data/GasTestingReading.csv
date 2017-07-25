@@ -1,0 +1,5 @@
+field1;Time of Analysis;string
+field2;%O2;number
+field3;%LEL;number
+field4;H2S(ppm);string
+field5;initials;string

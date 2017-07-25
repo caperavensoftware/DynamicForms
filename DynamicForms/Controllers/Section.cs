@@ -19,7 +19,10 @@ namespace DynamicForms.Controllers
 
             foreach (var section in sections)
             {
-                result.Add(new ResultSection(section.Id, section.Name, section.Description));
+                if (!section.IsDetail)
+                {
+                    result.Add(new ResultSection(section.Id, section.Name, section.Description));
+                }
             }
             
             var json = JsonConvert.SerializeObject(result);

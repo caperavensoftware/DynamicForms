@@ -12,6 +12,7 @@ namespace DynamicForms.Lib.Models
         public string Name { get; set; }
         public string Label { get; set; }
         public string DataType { get; set; }
+        public string DetailId { get; set; }
         public object Value { get; set; }
 
         public void Parse(string csv)
@@ -21,6 +22,11 @@ namespace DynamicForms.Lib.Models
             Name = result[0];
             Label = result[1];
             DataType = result[2];
+
+            if (DataType == "detail")
+            {
+                DetailId = result[3];
+            }   
         }
 
         public dynamic ToSchema()
@@ -43,6 +49,8 @@ namespace DynamicForms.Lib.Models
                     return CreateHeadingSchema();
                 case "group":
                     return CreateGroupSchema();
+                case "detail":
+                    return CreateDetailSchema();
             }
 
             return CreateInputElement("text");
@@ -116,6 +124,17 @@ namespace DynamicForms.Lib.Models
             schema.element = "group";
             schema.title = Label;
             
+            return schema;
+        }
+
+        private dynamic CreateDetailSchema()
+        {
+            Section detailSection = new Section();
+            detailSection.Parse("0;detail;detail;" + DetailId);
+            var childrenSchema = detailSection.ToSchema();
+            
+            dynamic schema = new ExpandoObject();
+
             return schema;
         }
     }

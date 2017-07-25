@@ -29,6 +29,7 @@ namespace DynamicForms.Lib.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public bool IsDetail { get; set; }
 
         /// <summary>
         ///     Parse csv string and initialize the section from that text
@@ -42,6 +43,12 @@ namespace DynamicForms.Lib.Models
             Name = result[1];
             Description = result[2];
             FileName = result[3];
+            IsDetail = false;
+
+            if (result.Length > 4)
+            {
+                IsDetail = result[4] == "detail";
+            }
 
             LoadItemsFromFile();
         }

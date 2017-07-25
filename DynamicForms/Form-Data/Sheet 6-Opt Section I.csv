@@ -1,0 +1,15 @@
+;Details of Authorised Gas Tester;group
+field1;Name;string
+field2;Company;string
+field3;Date Appointed as AGT;string
+field4;Certificate No;string
+field5;Instrument Used;string
+;Details of Gas Test Instrument;group
+field6;Make;string
+field7;Model No;string
+field8;Certificate;string
+field9;Date Last certified;string
+;Details of Gas Test Results;group
+field10;Hourly gas testing frequancy;number
+field11;Date of test;date
+;Gas Testing Readings;detail;6
