@@ -89,7 +89,33 @@ export class SchemaProcess {
             model[field.field] = "";
         }
 
+        for(let ds of schema.datasources) {
+            model[ds.id] = [];
+            const detailModel = {};
+
+            for(let field of ds.fields) {
+                detailModel[field.field] = "";
+            }
+            
+            model[`${ds.id}Schema`] = detailModel;
+            model.createInstance = this.createInstance.bind(this,  detailModel, model[ds.id]);
+            
+            if (ds.defaultRowCount > 0) {
+                for (let i = 0; i < ds.defaultRowCount; i++) {
+                    const d = this.createInstance(detailModel, model[ds.id]);
+                    model[ds.id].push(d);
+                }
+            }
+        }
+
+        
         return model;
+    }
+
+    createInstance(detailModel, collection) {
+        const obj = Object.create(detailModel);
+        obj.id = collection.length + 1;
+        return obj;
     }
 
     updateServer() {

@@ -16,6 +16,7 @@ namespace DynamicForms.Lib.Models
         public string Label { get; set; }
         public string DataType { get; set; }
         public int DetailId { get; set; }
+        public int DefaultDetailRowCount { get; set; }
         public object Value { get; set; }
 
         public void Parse(string csv)
@@ -29,6 +30,12 @@ namespace DynamicForms.Lib.Models
             if (DataType == "detail")
             {
                 DetailId = Convert.ToInt32(result[3]);
+                DefaultDetailRowCount = 0;
+
+                if (result.Length > 4)
+                {
+                    DefaultDetailRowCount = Convert.ToInt32(result[4]);
+                }
             }   
         }
 
@@ -54,6 +61,8 @@ namespace DynamicForms.Lib.Models
                     return CreateGroupSchema();
                 case "detail":
                     return CreateDetailSchema();
+                case "endgroup":
+                    return CreateEndGroupSchema();
             }
 
             return CreateInputElement("text");
@@ -130,6 +139,13 @@ namespace DynamicForms.Lib.Models
             return schema;
         }
 
+        private dynamic CreateEndGroupSchema()
+        {
+            dynamic schema = new ExpandoObject();
+            schema.element = "endgroup";
+            return schema;
+        }
+
         private dynamic CreateDetailSchema()
         {
             var childSchema = Form.Instance.Section(DetailId);
@@ -142,8 +158,8 @@ namespace DynamicForms.Lib.Models
             schema.id = DetailId;
             schema.element = "details";
             schema.datasource = datasource;
+            schema.defaultRowCount = DefaultDetailRowCount;
             schema.createInstance = "createInstance";
-            schema.dsreference = datasource;
             schema.elements = childrenObject.body.elements;
             schema.fields = childrenObject.fields;
             

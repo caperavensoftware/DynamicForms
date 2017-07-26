@@ -12,4 +12,5 @@ field9;Date Last certified;string
 ;Details of Gas Test Results;group
 field10;Hourly gas testing frequancy;number
 field11;Date of test;date
-;Gas Testing Readings;detail;6
+;Readings;heading
+;Gas Testing Readings;detail;6;1

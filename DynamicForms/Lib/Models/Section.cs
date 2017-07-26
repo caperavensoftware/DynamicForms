@@ -62,6 +62,7 @@ namespace DynamicForms.Lib.Models
             dynamic form = new ExpandoObject();
 
             form.fields = GetFieldMap();
+            form.datasources = new List<ExpandoObject>();
             form.body = new ExpandoObject();
             form.body.elements = new List<ExpandoObject>();
 
@@ -71,7 +72,11 @@ namespace DynamicForms.Lib.Models
             {
                 dynamic schema =  ((IDictionary<String, Object>) item.ToSchema());
 
-                if (schema.element == "group")
+                if (schema.element == "endgroup")
+                {
+                    currentParent = form.body.elements;
+                }
+                else if (schema.element == "group")
                 {
                     form.body.elements.Add(schema);
 
@@ -81,6 +86,15 @@ namespace DynamicForms.Lib.Models
                 else
                 {
                     currentParent.Add(schema);
+                }
+
+                if (schema.element == "details")
+                {
+                    dynamic datasource = new ExpandoObject();
+                    datasource.id = schema.datasource;
+                    datasource.defaultRowCount = schema.defaultRowCount;
+                    datasource.fields = schema.fields;
+                    form.datasources.Add(datasource);
                 }
             }
                 
