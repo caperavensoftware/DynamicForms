@@ -22,10 +22,9 @@ export class Welcome {
     }
 
     attached() {
-        const params = this.router.currentInstruction.params;
-        console.log(params);
+        const query = this.router.currentInstruction.queryParams;
         
-        this.fetchSections();
+        this.fetchSections(query);
 
         this.newSchemaHandler = this.newSchema.bind(this);
         this.newSchemaEvent = this.eventAggregator.subscribe("new-schema", this.newSchemaHandler);
@@ -40,9 +39,15 @@ export class Welcome {
         this.templateParser = null;
     }
 
-    fetchSections() {
+    fetchSections(query) {
         let httpClient = new HttpClient();
 
+        let url = 'api/section';
+
+        if (query) {
+            url = `${url}/query=${query}`;
+        }
+        
         httpClient.fetch('api/section')
             .then(response => response.json())
             .then(sections => {

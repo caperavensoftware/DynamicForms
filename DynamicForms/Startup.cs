@@ -22,7 +22,7 @@ namespace DynamicForms
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
             
-            Form.Instance.LoadFromFile();
+            GenericFormMain.Instance.LoadFromFile();
         }
 
         public IConfigurationRoot Configuration { get; }

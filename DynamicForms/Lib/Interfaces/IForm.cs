@@ -5,7 +5,7 @@ namespace DynamicForms.Lib.Interfaces
 {
     public interface IForm
     {
-        List<Section> Sections { get; set; }
+        List<Project> Projects { get; set; }
         void LoadFromFile();        
     }
 }

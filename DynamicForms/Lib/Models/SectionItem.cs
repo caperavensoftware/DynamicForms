@@ -68,11 +68,6 @@ namespace DynamicForms.Lib.Models
             return CreateInputElement("text");
         }
 
-        public void ToPdf(PdfPage page, PdfFlowTableContent table)
-        {
-            table.Rows.AddRowWithCells(Label, Value);
-        }
-
         private dynamic CreateBooleanElement()
         {
             dynamic schema = new ExpandoObject();
@@ -148,7 +143,7 @@ namespace DynamicForms.Lib.Models
 
         private dynamic CreateDetailSchema()
         {
-            var childSchema = Form.Instance.Section(DetailId);
+            var childSchema = GenericFormMain.Instance.CurrentProject.Section(DetailId);
             var childrenSchema = childSchema.ToSchema();
             var childrenObject = JsonConvert.DeserializeObject(childrenSchema);
             var datasource = Regex.Replace(childSchema.Name, @"\s+", "").ToLower();

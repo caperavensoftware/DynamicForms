@@ -7,15 +7,29 @@ using Newtonsoft.Json.Linq;
 
 namespace DynamicForms.Controllers
 {
+    
     [Route("api/[controller]")]
     public class Section : Controller
     {
+        private Project GetProject(string query)
+        {
+            /*
+                use query string to determine what project to use.
+                these are just hardcoded but you will need to load the work order and do comparisons as defined on the query
+            */
+
+            return GenericFormMain.Instance.Project(query.Contains("R00100") ? 1 : 2);
+        }
+        
         [HttpGet]
         public string Get()
         {
+            var queryString = Request.QueryString.Value;
+            GenericFormMain.Instance.CurrentProject = GetProject(queryString);
+            
             var result = new List<ResultSection>();
 
-            var sections = Form.Instance.Sections;
+            var sections = GenericFormMain.Instance.CurrentProject.Sections;
 
             foreach (var section in sections)
             {
@@ -32,8 +46,8 @@ namespace DynamicForms.Controllers
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)
-        {
-            var section = Form.Instance.Section(id);
+        {           
+            var section = GenericFormMain.Instance.CurrentProject.Section(id);
             return section.ToSchema();
         }
 
@@ -41,9 +55,8 @@ namespace DynamicForms.Controllers
         public void Post([FromBody] JArray value)
         {
             var dynamicCollection = value.ToObject<dynamic[]>();
-            
-            var pdf = new Pdf();
-            pdf.Parse(dynamicCollection);
+
+            // create pdf
         }
     }
 

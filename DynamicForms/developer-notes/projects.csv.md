@@ -9,7 +9,8 @@ When you define more than one project the defined section will load for the proj
 1. pdf name that will be generated
 1. csv file that defines the section landing page
 1. condition to determine when this project must be used.
+1. onkey url.
 
 ## Example
-Shell;shell.pdf;shell.csv;@wo.site.code="A11"
+Shell;shell.pdf;shell.csv;@wo.site.code="A11";http://pragmaworld.net/onkey/
 Engine;engine.pdf;engine.csv;@wo.site.code="A12"

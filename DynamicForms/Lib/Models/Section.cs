@@ -14,10 +14,7 @@ using Xfinium.Pdf.FlowDocument;
 namespace DynamicForms.Lib.Models
 {
     public class Section : ISection
-    {
-        /// <summary>
-        ///     Constructor
-        /// </summary>
+    {        
         public Section()
         {
             Items = new List<SectionItem>();
@@ -31,10 +28,6 @@ namespace DynamicForms.Lib.Models
         public string Description { get; set; }
         public bool IsDetail { get; set; }
 
-        /// <summary>
-        ///     Parse csv string and initialize the section from that text
-        /// </summary>
-        /// <param name="csv">Comma seperated string list to process</param>
         public void Parse(string csv)
         {
             var result = csv.Split(';');
@@ -53,10 +46,6 @@ namespace DynamicForms.Lib.Models
             LoadItemsFromFile();
         }
 
-        /// <summary>
-        ///     Save this section to a schema to be used by client
-        /// </summary>
-        /// <returns></returns>
         public dynamic ToSchema()
         {
             dynamic form = new ExpandoObject();
@@ -102,36 +91,6 @@ namespace DynamicForms.Lib.Models
             return JsonConvert.SerializeObject(form);
         }
 
-        /// <summary>
-        ///     Update the items with the given values and generate pdf parts to use in the main document
-        /// </summary>
-        /// <param name="values"></param>
-        /// <param name="page"></param>
-        /// <param name="document"></param>
-        public PdfPage ToPdf(List<FieldValue> values, PdfPage page, PdfFixedDocument document)
-        {
-            var printSheet = page ?? document.Pages.Add();
-
-            PdfHelper.AddHeader(printSheet, document, Name);
-                      
-            PdfFlowTableContent table = new PdfFlowTableContent(2);
-            table.MinRowHeight = 15;
-
-            foreach (var value in values)
-            {
-                var item = Items.Find(i => i.Name == value.Field);
-                item.Value = value.Value;
-
-                item.ToPdf(printSheet, table);
-            }
-
-
-            return printSheet;
-        }
-
-        /// <summary>
-        ///     Load schema from file and initialize it's items
-        /// </summary>
         private void LoadItemsFromFile()
         {
             var reader = File.OpenText("./Form-Data/" + FileName);
@@ -148,10 +107,6 @@ namespace DynamicForms.Lib.Models
             Console.WriteLine("Count: " + Items.Count);
         }
 
-        /// <summary>
-        ///     Build client schema's fields section from the section items
-        /// </summary>
-        /// <returns></returns>
         private List<FieldMap> GetFieldMap()
         {
             var result = new List<FieldMap>();
@@ -163,9 +118,6 @@ namespace DynamicForms.Lib.Models
         }
     }
 
-    /// <summary>
-    ///     Class that defines field map for client schema
-    /// </summary>
     internal class FieldMap
     {
         public FieldMap(string fieldName)
