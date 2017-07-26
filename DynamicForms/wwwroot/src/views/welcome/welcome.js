@@ -1,10 +1,11 @@
 import {bindable, inject} from 'aurelia-framework';
+import {Router} from 'aurelia-router'
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {HttpClient} from 'aurelia-fetch-client';
 import {SchemaProcess} from './schema-process';
 import {DynamicViewLoader, TemplateParser} from 'pragma-views';
 
-@inject(EventAggregator, DynamicViewLoader)
+@inject(EventAggregator, DynamicViewLoader, Router)
 export class Welcome {
     items;
 
@@ -13,13 +14,17 @@ export class Welcome {
     @bindable schema;
     @bindable model;
 
-    constructor(eventAggregator, dynamicViewLoader, templateParser) {
+    constructor(eventAggregator, dynamicViewLoader, router) {
         this.eventAggregator = eventAggregator;
         this.dynamicViewLoader = dynamicViewLoader;
+        this.router = router;
         this.templateParser = new TemplateParser("model");
     }
 
     attached() {
+        const params = this.router.currentInstruction.params;
+        console.log(params);
+        
         this.fetchSections();
 
         this.newSchemaHandler = this.newSchema.bind(this);
