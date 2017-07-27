@@ -24,7 +24,7 @@ export class Welcome {
     }
 
     attached() {
-        const query = this.router.currentInstruction.queryParams;
+        const query = this.router.currentInstruction.queryString;
         
         this.fetchSections(query);
 
@@ -43,15 +43,14 @@ export class Welcome {
 
     fetchSections(query) {
         let httpClient = new HttpClient();
-
         let url = 'api/section';
 
-        if (query) {
-            url = `${url}/query=${query}`;
+        if ((query || "").length > 0) {
+            url = url + '?' + query;
         }
         
-        httpClient.fetch('api/section')
-            .then(response => response.json())
+        httpClient.fetch(url)
+        .then(response => response.json())
             .then(sections => {
                 this.items = sections;
             });

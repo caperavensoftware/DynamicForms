@@ -73,9 +73,10 @@ namespace DynamicForms.Lib.Models
             }                        
         }
 
-        public Section Section(int id)
+        public Section Section(string id)
         {
-            return Sections.Find(item => item.Id == id);
+            int sectionId = Convert.ToInt32(id);
+            return Sections.Find(item => item.Id == sectionId);
         }
     }    
 }

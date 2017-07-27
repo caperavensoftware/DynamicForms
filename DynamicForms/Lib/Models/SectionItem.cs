@@ -15,7 +15,7 @@ namespace DynamicForms.Lib.Models
         public string Name { get; set; }
         public string Label { get; set; }
         public string DataType { get; set; }
-        public int DetailId { get; set; }
+        public string DetailId { get; set; }
         public int DefaultDetailRowCount { get; set; }
         public object Value { get; set; }
 
@@ -29,7 +29,7 @@ namespace DynamicForms.Lib.Models
 
             if (result.Length > 3)
             {
-                DetailId = Convert.ToInt32(result[3]);
+                DetailId = result[3];
                 DefaultDetailRowCount = 0;
 
                 if (result.Length > 4)

@@ -127,7 +127,7 @@ namespace DynamicForms.Lib.Models
 
     internal class FieldMap
     {
-        public FieldMap(string fieldName, int detailId)
+        public FieldMap(string fieldName, string detailId)
         {
             field = fieldName;
             map = fieldName;
@@ -137,6 +137,6 @@ namespace DynamicForms.Lib.Models
         // These must be lowecase so that it is appropriate casing on the client side.
         public string field { get; set; }
         public string map { get; set; }
-        public int sectionId { get; set; }
+        public string sectionId { get; set; }
     }
 }

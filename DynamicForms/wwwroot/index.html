@@ -28,11 +28,11 @@
     <script src="./jspm_packages/system.js" defer></script>
     <script src="./config.js" onload="jspmLoaded()" defer></script>
 
-    <script async>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./service-worker.js', {scope: '/'})
-                .catch(error => console.error('service worker registration failed with ' + error))
-        }
-    </script>
+    <!--<script async>-->
+        <!--if ('serviceWorker' in navigator) {-->
+            <!--navigator.serviceWorker.register('./service-worker.js', {scope: '/'})-->
+                <!--.catch(error => console.error('service worker registration failed with ' + error))-->
+        <!--}-->
+    <!--</script>-->
 </body>
 </html>

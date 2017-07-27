@@ -35,3 +35,6 @@ field1;Section B;boolean;
 field2;Section C;boolean;	
 field3;Details1;detail;2
 field4;Section D;conditional;3
+field5;@wo.code
+field6;@wo.sitecode
+unique:@wo.code @datenow                "R00100 12/01/2021 00:12:23"

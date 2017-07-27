@@ -43,7 +43,7 @@ namespace DynamicForms.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {           
-            var section = GenericFormMain.Instance.CurrentProject.Section(id);
+            var section = GenericFormMain.Instance.CurrentProject.Section(id.ToString());
             return section.ToSchema();
         }
 

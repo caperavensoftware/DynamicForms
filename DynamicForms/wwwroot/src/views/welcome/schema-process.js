@@ -93,20 +93,28 @@ export class SchemaProcess {
     }
 
     addSectionIdToCollection(sectionId) {
-        const hasSectionId = this.idCollection.indexOf(sectionId) > -1;
+        const idCollection = sectionId.split(",");
         
-        if (!hasSectionId) {
-            this.idCollection.push(sectionId);
+        for (let id of idCollection) {
+            const hasSectionId = this.idCollection.indexOf(id) > -1;
+
+            if (!hasSectionId) {
+                this.idCollection.push(id);
+            }
         }
     }
 
     removeSectionIdFromCollection(sectionId) {
-        const index = this.idCollection.indexOf(sectionId);
-        const hasSectionId = index > -1;
+        const idCollection = sectionId.split(",");
         
-        if (hasSectionId) {
-            this.idCollection.splice(index, 1);
-            this.removeSchemaFromCollection(sectionId);
+        for (let id of idCollection) {
+            const index = this.idCollection.indexOf(id);
+            const hasSectionId = index > -1;
+
+            if (hasSectionId) {
+                this.idCollection.splice(index, 1);
+                this.removeSchemaFromCollection(id);
+            }
         }
     }
     
@@ -126,9 +134,8 @@ export class SchemaProcess {
         for(let field of schema.fields) {
             model[field.field] = "";
             
-            const sectionId = parseInt(field.sectionId);
-            if (sectionId > 0) {
-                model.subscriptions.push(this.observerLocator.getObserver(model, field.field).subscribe(() => this.propertyChanged(model, field.field, sectionId)));    
+            if (parseInt(field.sectionId) > 0) {
+                model.subscriptions.push(this.observerLocator.getObserver(model, field.field).subscribe(() => this.propertyChanged(model, field.field, field.sectionId)));    
             }
         }
 

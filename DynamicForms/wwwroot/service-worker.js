@@ -2,7 +2,7 @@
 // Change to v2, etc. when you update any of the local resources, which will
 // in turn trigger the install event again.
 
-const PRECACHE = 'my-application-v1';
+const PRECACHE = 'DynamicForms';
 const RUNTIME = 'runtime';
 
 // A list of local resources we always want to be cached.
@@ -42,7 +42,9 @@ addEventListener('activate', event => {
 // from the network before returning it to the page.
 addEventListener('fetch', event => {
     // Skip cross-origin requests, like those for Google Analytics.
-    if (event.request.url.startsWith(location.origin)) {
+    const isServiceApi = event.request.url.indexOf("api/section") > -1;
+    
+    if (event.request.url.startsWith(location.origin) && !isServiceApi) {
         event.respondWith(
             caches.match(event.request).then(cachedResponse => {
                 if (cachedResponse) {
