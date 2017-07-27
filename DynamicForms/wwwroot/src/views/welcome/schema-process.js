@@ -132,10 +132,15 @@ export class SchemaProcess {
         model.subscriptions = [];
 
         for(let field of schema.fields) {
-            model[field.field] = "";
+
+            model[field.field] = field.option == null ? "" : field.option;
             
-            if (parseInt(field.sectionId) > 0) {
-                model.subscriptions.push(this.observerLocator.getObserver(model, field.field).subscribe(() => this.propertyChanged(model, field.field, field.sectionId)));    
+            if (field.option == "@date" || field.option == "@now") {
+                model[field.field] = new Date();
+            }
+            
+            if (field.type == "conditional") {
+                model.subscriptions.push(this.observerLocator.getObserver(model, field.field).subscribe(() => this.propertyChanged(model, field.field, field.option)));    
             }
         }
 

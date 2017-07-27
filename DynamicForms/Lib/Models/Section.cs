@@ -119,24 +119,40 @@ namespace DynamicForms.Lib.Models
             var result = new List<FieldMap>();
 
             foreach (var item in Items)
-                result.Add(new FieldMap(item.Name, item.DetailId));
+                result.Add(new FieldMap(item.Name, GetOptionValue(item.Option), item.DataType));
 
             return result;
+        }
+
+        private string GetOptionValue(string option)
+        {
+            // get value from onkey and send that back to the client.
+            // if the option does not start with @ then it's not for this funciton just pass the balue back as is.
+
+            switch (option)
+            {
+                case "@date": return new DateTime().ToString("YYYY-MM-DD");
+                case "@now": return new DateTime().ToString("HH:mm");
+            }
+            
+            return option;
         }
     }
 
     internal class FieldMap
     {
-        public FieldMap(string fieldName, string detailId)
+        public FieldMap(string fieldName, string o, string t)
         {
             field = fieldName;
             map = fieldName;
-            sectionId = detailId;
+            option = o;
+            type = t;
         }
 
         // These must be lowecase so that it is appropriate casing on the client side.
         public string field { get; set; }
         public string map { get; set; }
-        public string sectionId { get; set; }
+        public string option { get; set; }
+        public string type { get; set; }
     }
 }

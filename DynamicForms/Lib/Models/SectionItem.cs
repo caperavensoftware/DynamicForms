@@ -15,8 +15,8 @@ namespace DynamicForms.Lib.Models
         public string Name { get; set; }
         public string Label { get; set; }
         public string DataType { get; set; }
-        public string DetailId { get; set; }
-        public int DefaultDetailRowCount { get; set; }
+        public string Option { get; set; }
+        public int OptionParameter { get; set; }
         public object Value { get; set; }
 
         public void Parse(string csv)
@@ -29,12 +29,12 @@ namespace DynamicForms.Lib.Models
 
             if (result.Length > 3)
             {
-                DetailId = result[3];
-                DefaultDetailRowCount = 0;
+                Option = result[3];
+                OptionParameter = 0;
 
                 if (result.Length > 4)
                 {
-                    DefaultDetailRowCount = Convert.ToInt32(result[4]);
+                    OptionParameter = Convert.ToInt32(result[4]);
                 }
             }   
         }
@@ -77,6 +77,7 @@ namespace DynamicForms.Lib.Models
             schema.element = "checkbox";
             schema.title = Label;
             schema.field = Name;
+            schema.option = Option;
             
             return schema;
         }
@@ -87,6 +88,7 @@ namespace DynamicForms.Lib.Models
 
             schema.element = "input";
             schema.content = "${" + Name + "}";
+            schema.option = Option;
 
             return schema;            
         }
@@ -108,6 +110,7 @@ namespace DynamicForms.Lib.Models
             schema.element = "memo";
             schema.title = Label;
             schema.field = Name;
+            schema.option = Option;
             
             return schema;    
         }
@@ -119,6 +122,7 @@ namespace DynamicForms.Lib.Models
             schema.element = "input";
             schema.title = Label;
             schema.field = Name;
+            schema.option = Option;
             
             schema.attributes = new ExpandoObject();
             schema.attributes.type = jsType;
@@ -145,17 +149,17 @@ namespace DynamicForms.Lib.Models
 
         private dynamic CreateDetailSchema()
         {
-            var childSchema = GenericFormMain.Instance.CurrentProject.Section(DetailId);
+            var childSchema = GenericFormMain.Instance.CurrentProject.Section(Option);
             var childrenSchema = childSchema.ToSchema();
             var childrenObject = JsonConvert.DeserializeObject(childrenSchema);
             var datasource = Regex.Replace(childSchema.Name, @"\s+", "").ToLower();
             
             dynamic schema = new ExpandoObject();
 
-            schema.id = DetailId;
+            schema.id = Option;
             schema.element = "details";
             schema.datasource = datasource;
-            schema.defaultRowCount = DefaultDetailRowCount;
+            schema.defaultRowCount = OptionParameter;
             schema.createInstance = "createInstance";
             schema.elements = childrenObject.body.elements;
             schema.fields = childrenObject.fields;
