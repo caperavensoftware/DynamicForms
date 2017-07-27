@@ -17,6 +17,7 @@ The following options are available for data types
 1. number - number input will be used
 1. memo - textarea will be used
 1. detail - shows pragma-details allowing multiple inputs
+1. label - textbox that is disabled so that it is readonly
 1. conditional - by default this is a boolean and thus checkbox
 1. heading - show a heading element 
 1. group - group the items defined below in a group
