@@ -5,7 +5,7 @@ field2;Permit valid to;date;@date
 field3;Time from;time;@now
 field4;Time to;time;@now
 field5;Permit Requester/Holder;text
-field6;Company Name of Requester/Holder;text;Pragma Products
+field6;Company Name of Requester/Holder;label;Pragma Products
 field7;Equipment No. (Asset Tag No.);text
 field8;Facility (Site Name);text
 field9;Job Site Location (Physical Address);text

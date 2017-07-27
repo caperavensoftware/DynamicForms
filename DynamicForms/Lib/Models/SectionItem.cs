@@ -54,7 +54,7 @@ namespace DynamicForms.Lib.Models
                 case "memo":
                     return CreateMemoElement();
                 case "label":
-                    return CreateLabelSchema();
+                    return CreateInputElement("text", true);
                 case "heading":
                     return CreateHeadingSchema();
                 case "group":
@@ -81,17 +81,6 @@ namespace DynamicForms.Lib.Models
             
             return schema;
         }
-        
-        private dynamic CreateLabelSchema()
-        {
-            dynamic schema = new ExpandoObject();
-
-            schema.element = "input";
-            schema.content = "${" + Name + "}";
-            schema.option = Option;
-
-            return schema;            
-        }
 
         private dynamic CreateHeadingSchema()
         {
@@ -115,7 +104,7 @@ namespace DynamicForms.Lib.Models
             return schema;    
         }
 
-        private dynamic CreateInputElement(string jsType)
+        private dynamic CreateInputElement(string jsType, bool disabled = false)
         {
             dynamic schema = new ExpandoObject();
             
@@ -126,6 +115,11 @@ namespace DynamicForms.Lib.Models
             
             schema.attributes = new ExpandoObject();
             schema.attributes.type = jsType;
+
+            if (disabled)
+            {
+                schema.attributes.disabled = "true";
+            }
 
             return schema;
         }
