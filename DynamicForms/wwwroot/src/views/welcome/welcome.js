@@ -4,8 +4,9 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 import {HttpClient} from 'aurelia-fetch-client';
 import {SchemaProcess} from './schema-process';
 import {DynamicViewLoader, TemplateParser} from 'pragma-views';
+import {ObserverLocator} from 'aurelia-framework';
 
-@inject(EventAggregator, DynamicViewLoader, Router)
+@inject(EventAggregator, DynamicViewLoader, Router, ObserverLocator)
 export class Welcome {
     items;
 
@@ -14,10 +15,11 @@ export class Welcome {
     @bindable schema;
     @bindable model;
 
-    constructor(eventAggregator, dynamicViewLoader, router) {
+    constructor(eventAggregator, dynamicViewLoader, router, observerLocator) {
         this.eventAggregator = eventAggregator;
         this.dynamicViewLoader = dynamicViewLoader;
         this.router = router;
+        this.observerLocator = observerLocator;
         this.templateParser = new TemplateParser("model");
     }
 
@@ -62,7 +64,7 @@ export class Welcome {
 
         const result = this.selectedId.sort((a,b) => a > b);
         
-        this.schemaProcess = new SchemaProcess(this.selectedId, this.eventAggregator);
+        this.schemaProcess = new SchemaProcess(this.selectedId, this.eventAggregator, this.observerLocator);
         this.aside.classList.remove("closed");
     }
 
@@ -75,6 +77,10 @@ export class Welcome {
     }
 
     newSchema() {
+        if (this.model) {
+            this.schemaProcess.disposeModel(this.model);
+        }
+        
         this.model = this.schemaProcess.schemas[this.schemaProcess.currentIndex].model;
         this.schema = this.schemaProcess.schemas[this.schemaProcess.currentIndex].schema;
 

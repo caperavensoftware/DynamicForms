@@ -5,12 +5,11 @@ export class SchemaProcess {
     currentIndex;
     idCollection;
     schemas;
-    atEnd;
 
-    constructor(idCollection, eventAggregator) {
+    constructor(idCollection, eventAggregator, observerLocator) {
         this.eventAggregator = eventAggregator;
         this.idCollection = idCollection;
-        this.atEnd = false;
+        this.observerLocator = observerLocator;
         this.initialize();
     }
 
@@ -27,29 +26,27 @@ export class SchemaProcess {
     }
 
     next() {
-        if (this.atEnd == true) {
-            this.updateServer();
-            return false;
-        }
-
-        if (this.currentIndex < this.idCollection.length -1) {
-            this.currentIndex = this.currentIndex + 1;
-        }
-
-        this.atEnd = this.currentIndex == this.idCollection.length -1;
-        this.getCurrentSchema();
-        return true;
+        this.currentIndex = this.currentIndex + 1;
+        return this.getCurrentSchema();
     }
 
     previous() {
-        if (this.currentIndex > 0) {
-            this.currentIndex = this.currentIndex - 1;
-        }
-
+        this.currentIndex = this.currentIndex - 1;
         this.getCurrentSchema();
     }
 
     getCurrentSchema() {
+        if (this.currentIndex < 0) {
+            this.currentIndex = 0;
+            return false;
+        }
+        
+        if (this.currentIndex > this.idCollection.length - 1) {
+            this.currentIndex = this.currentIndex = this.idCollection.length - 1;
+            this.updateServer();
+            return false;
+        }
+        
         const id = this.idCollection[this.currentIndex];
 
         if (this.currentIndex > this.schemas.length - 1) {
@@ -58,6 +55,8 @@ export class SchemaProcess {
         else {
             this.publishSchema();
         }
+        
+        return true;
     }
 
     setCurrentSchema(id) {
@@ -81,12 +80,56 @@ export class SchemaProcess {
     publishSchema() {
         this.eventAggregator.publish("new-schema");
     }
+    
+    propertyChanged(model, fieldname, sectionId) {
+        const value = model[fieldname];
+        
+        if (value == true) {
+            this.addSectionIdToCollection(sectionId);
+        }
+        else {
+            this.removeSectionIdFromCollection(sectionId);
+        }
+    }
+
+    addSectionIdToCollection(sectionId) {
+        const hasSectionId = this.idCollection.indexOf(sectionId) > -1;
+        
+        if (!hasSectionId) {
+            this.idCollection.push(sectionId);
+        }
+    }
+
+    removeSectionIdFromCollection(sectionId) {
+        const index = this.idCollection.indexOf(sectionId);
+        const hasSectionId = index > -1;
+        
+        if (hasSectionId) {
+            this.idCollection.splice(index, 1);
+            this.removeSchemaFromCollection(sectionId);
+        }
+    }
+    
+    removeSchemaFromCollection(sectionId) {
+        const schema = this.schemas.find(item => item.id == sectionId);
+        
+        if (schema != undefined) {
+            const index = this.schemas.indexOf(schema);
+            this.schemas.splice(index,  1);
+        }
+    }
 
     createModelFromSchema(schema) {
         const model = {};
+        model.subscriptions = [];
 
         for(let field of schema.fields) {
             model[field.field] = "";
+            
+            const sectionId = parseInt(field.sectionId);
+            if (sectionId > 0) {
+                model.subscriptions.push(this.observerLocator.getObserver(model, field.field).subscribe(() => this.propertyChanged(model, field.field, sectionId)));    
+            }
         }
 
         for(let ds of schema.datasources) {
@@ -110,6 +153,14 @@ export class SchemaProcess {
 
         
         return model;
+    }
+    
+    disposeModel(model) {
+        while(model.subscriptions.length) {
+            model.subscriptions.pop();
+        }
+        
+        model.createInstance = null;
     }
 
     createInstance(detailModel, collection) {
