@@ -20,13 +20,15 @@ namespace DynamicForms.Lib.Models
             Items = new List<SectionItem>();
         }
 
-        public string FileName { get; set; }
-
         public List<SectionItem> Items { get; set; }
+        
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public bool IsDetail { get; set; }
+        public string FileName { get; set; }
+        public string PdfFileName { get; set; }
+        public string Option { get; set; }
+        public string OptionParameter { get; set; }
 
         public void Parse(string csv)
         {
@@ -36,11 +38,16 @@ namespace DynamicForms.Lib.Models
             Name = result[1];
             Description = result[2];
             FileName = result[3];
-            IsDetail = false;
-
-            if (result.Length > 4)
+            PdfFileName = result[4];
+            
+            if (result.Length > 5)
             {
-                IsDetail = result[4] == "detail";
+                Option = result[5];
+            }
+
+            if (result.Length > 6)
+            {
+                OptionParameter = result[6];
             }
 
             LoadItemsFromFile();
@@ -112,7 +119,7 @@ namespace DynamicForms.Lib.Models
             var result = new List<FieldMap>();
 
             foreach (var item in Items)
-                result.Add(new FieldMap(item.Name));
+                result.Add(new FieldMap(item.Name, item.DetailId));
 
             return result;
         }
@@ -120,15 +127,16 @@ namespace DynamicForms.Lib.Models
 
     internal class FieldMap
     {
-        public FieldMap(string fieldName)
+        public FieldMap(string fieldName, int detailId)
         {
             field = fieldName;
             map = fieldName;
+            sectionId = detailId;
         }
 
         // These must be lowecase so that it is appropriate casing on the client side.
         public string field { get; set; }
-
         public string map { get; set; }
+        public int sectionId { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace DynamicForms.Lib.Models
             Label = result[1];
             DataType = result[2];
 
-            if (DataType == "detail")
+            if (result.Length > 3)
             {
                 DetailId = Convert.ToInt32(result[3]);
                 DefaultDetailRowCount = 0;
@@ -61,6 +61,8 @@ namespace DynamicForms.Lib.Models
                     return CreateGroupSchema();
                 case "detail":
                     return CreateDetailSchema();
+                case "conditional":
+                    return CreateBooleanElement();
                 case "endgroup":
                     return CreateEndGroupSchema();
             }
@@ -93,7 +95,7 @@ namespace DynamicForms.Lib.Models
         {
             dynamic schema = new ExpandoObject();
 
-            schema.element = "h2";
+            schema.element = "h3";
             schema.content = Label;
 
             return schema;                        

@@ -18,6 +18,9 @@ The following options are available for data types
 1. memo - textarea will be used
 1. detail - shows pragma-details allowing multiple inputs
 1. conditional - by default this is a boolean and thus checkbox
+1. heading - show a heading element 
+1. group - group the items defined below in a group
+1. endgroup - stop using groups as the container and now use the page again so that the next items are not in a group
 
 ## detail
 when using the detail data type you need to provide the section id to use as the input template.

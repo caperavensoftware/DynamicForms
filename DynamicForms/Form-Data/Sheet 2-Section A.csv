@@ -18,9 +18,9 @@ field15;JSA Required;boolean
 field16;EIA Required and Issued;boolean
 field17;Respiratory protection required type;text
 ;Permit Issuer to check;group
-field18;Standby person required during performance of work:;boolean
-field19;PPE’S Required: (Complete Section M);boolean
-field20;Equipment to be depressurized and drained;boolean
+field18;Use Section B:;conditional;2
+field19;Use Section C;conditional;3
+field20;Use Section D;conditional;4
 field21;All energy sources to equipment isolated, locked and tagged (Lock Out & Tag Out);boolean
 field22;MSDS provided, hazards reviewed – list chemicals;boolean
 field23;Area is required to be barricaded with warning signs installed;boolean

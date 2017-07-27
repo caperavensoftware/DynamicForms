@@ -13,7 +13,38 @@ namespace DynamicForms.Lib.Models
         public string Condition { get; set; }
         
         public List<Section> Sections { get; set; }
-        
+
+        public List<Section> ClientSessions
+        {
+            get
+            {
+                var result = new List<Section>();
+
+                foreach (var section in Sections)
+                {
+                    string option = section.Option.ToLower();
+
+                    if (option == "true" || option == "required")
+                    {
+                        if (PassesFilter(section))
+                        {
+                            result.Add(section);
+                        }
+                    }
+                }
+                
+                return result;
+            }
+        }
+
+        private bool PassesFilter(Section section)
+        {
+            /*
+                if the section has a option parameter, check if this section passes the filter query then return true else return false
+            */
+            return true;
+        }
+
         public void Parse(string csv)
         {
             var result = csv.Split(';');

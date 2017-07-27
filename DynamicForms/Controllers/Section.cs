@@ -7,7 +7,6 @@ using Newtonsoft.Json.Linq;
 
 namespace DynamicForms.Controllers
 {
-    
     [Route("api/[controller]")]
     public class Section : Controller
     {
@@ -29,14 +28,11 @@ namespace DynamicForms.Controllers
             
             var result = new List<ResultSection>();
 
-            var sections = GenericFormMain.Instance.CurrentProject.Sections;
+            var sections = GenericFormMain.Instance.CurrentProject.ClientSessions;
 
             foreach (var section in sections)
             {
-                if (!section.IsDetail)
-                {
-                    result.Add(new ResultSection(section.Id, section.Name, section.Description));
-                }
+                result.Add(new ResultSection(section.Id, section.Name, section.Description));
             }
             
             var json = JsonConvert.SerializeObject(result);

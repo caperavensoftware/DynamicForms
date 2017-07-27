@@ -1,3 +1,6 @@
 1;SECTION A;GENERAL WORK PERMIT;Sheet 2-Section A.csv;SheetA.pdf;required
-5;OPTIONAL SECTION I;GAS TEST FORM;Sheet 6-Opt Section I.csv;SheetI.pdf;optional
-6;GasTesting;Gast Testing;GasTestingReading.csv;;optional
+2;SECTION B;HOT WORK FORM;Sheet 3-Section B.csv;SheetB.pdf;false
+3;SECTION C;CONFINED SPACE ENTRY FORM;Sheet 4-Section C.csv;SheetC.pdf;false
+4;SECTION D;EXCAVATION FORM;Sheet 5-Section D.csv;SheetD.pdf;false
+5;OPTIONAL SECTION I;GAS TEST FORM;Sheet 6-Opt Section I.csv;SheetI.pdf;false
+6;GasTesting;Gast Testing;GasTestingReading.csv;;false
