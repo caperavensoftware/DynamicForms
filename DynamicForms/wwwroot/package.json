@@ -21,7 +21,8 @@
       "aurelia-framework": "^1.1.2",
       "aurelia-pal": "^1.3.0",
       "aurelia-pal-browser": "^1.2.1",
-      "pragma-views": "^0.0.61"
+      "pragma-views": "^0.0.64",
+      "systemjs/plugin-text": "github:systemjs/plugin-text@^0.0.11"
     },
     "devDependencies": {}
   },
@@ -72,5 +73,8 @@
       "transform-decorators-legacy",
       "transform-class-properties"
     ]
+  },
+  "dependencies": {
+    "systemjs-plugin-text": "github:systemjs/plugin-text"
   }
 }

@@ -14,4 +14,7 @@
     <PackageReference Include="Xfinium.Pdf.NetCore" Version="6.8.0.2" />
     <PackageReference Include="Xfinium.Pdf.Render.NetCore" Version="6.8.0.2" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="wwwroot\bundle.json" />
+  </ItemGroup>
 </Project>
